@@ -6,9 +6,9 @@ Dicho microservicio expone datos desde una BD alimentada con datos obtenidos des
 
 
 Entre los elementos a implementar en esta PoC tenemos:
-[x] Creación del servicio con tecnología C# (.NET 5)
-[x] Creación de Swagger o Open API 3.0
-[x] Manejo de Errores a través de filtro de excepciones
-[ ] Uso de Docker
-[ ] Despliegue automatizado en Azure
-[ ] Pruebas Unitarias
+- [x] Creación del servicio con tecnología C# (.NET 5)
+- [x] Creación de Swagger o Open API 3.0
+- [x] Manejo de Errores a través de filtro de excepciones
+- [ ] Uso de Docker
+- [ ] Despliegue automatizado en Azure
+- [ ] Pruebas Unitarias
