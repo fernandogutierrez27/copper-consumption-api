@@ -7,8 +7,10 @@ trigger:
 - main
 variables:
   buildConfiguration: 'Release'
-  webRepository: 'web'
+  webRepository: 'copper-consumption-api'
   tag: $(Build.BuildId)
+  webAppName: 'copper-consumption-api'
+  registryName: 'fgutierrezdocker'
 
 stages:
 - stage: 'Build'
@@ -25,8 +27,8 @@ stages:
         command: buildAndPush
         buildContext: $(Build.Repository.LocalPath)
         repository: $(webRepository)
-        dockerfile: $(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile
-        containerRegistry: 'Container Registry Connection'
+        dockerfile: $(Build.SourcesDirectory)/Api/Dockerfile
+        containerRegistry: 'DockerServiceConnection'
         tags: |
           $(tag)
 
@@ -43,7 +45,7 @@ stages:
     steps:
     - task: AzureWebAppContainer@1
       inputs:
-        appName: $(WebAppName)
+        appName: $(webAppName)
         azureSubscription: 'Resource Manager - Tailspin - Space Game'
-        imageName: $(RegistryName)/$(webRepository):$(tag)
+        imageName: $(registryName)/$(webRepository):$(tag)
 
