@@ -48,12 +48,12 @@ namespace CopperConsumption.Api.Controllers
             return NoContent();
         }
 
-        // [HttpDelete("{id}")]
-        // public async Task<ActionResult> Delete(int id)
-        // {
-        //     await Mediator.Send(new DeleteTodoListCommand { Id = id });
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            await _paisService.DeletePais(id);
 
-        //     return NoContent();
-        // }
+            return NoContent();
+        }
     }
 }

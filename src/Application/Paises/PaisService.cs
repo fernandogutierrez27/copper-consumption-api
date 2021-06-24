@@ -46,7 +46,7 @@ namespace CopperConsumption.Application.Paises
         public async Task<int> CreatePais(Pais pais)
         {
             pais.Id = 0;
-            await ValidationHelper.Validate<Pais>(new PaisValidator(_db), pais);
+            await ValidationHelper.Validate<Pais>(new UpsertPaisValidator(_db), pais);
 
             _db.Paises.Add(pais);
 
@@ -60,10 +60,22 @@ namespace CopperConsumption.Application.Paises
             var _pais = await _db.Paises.FindAsync(pais.Id);
             if (_pais == null) throw new NotFoundException("Pais", pais.Id);
 
-            await ValidationHelper.Validate<Pais>(new PaisValidator(_db), pais);
+            await ValidationHelper.Validate<Pais>(new UpsertPaisValidator(_db), pais);
 
             _pais.Nombre = pais.Nombre;
             _db.Paises.Update(_pais);
+
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task DeletePais(int id)
+        {
+            var _pais = await _db.Paises.FindAsync(id);
+            if (_pais == null) throw new NotFoundException("Pais", id);
+
+            await ValidationHelper.Validate<Pais>(new DeletePaisValidator(_db), _pais);
+
+            _db.Paises.Remove(_pais);
 
             await _db.SaveChangesAsync();
         }

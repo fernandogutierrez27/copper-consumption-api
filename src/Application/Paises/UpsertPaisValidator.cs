@@ -10,11 +10,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CopperConsumption.Application.Paises
 {
-    public class PaisValidator : AbstractValidator<Pais>
+    public class UpsertPaisValidator : AbstractValidator<Pais>
     {
         private readonly ICopperConsumptionDbContext _context;
 
-        public PaisValidator(ICopperConsumptionDbContext context)
+        public UpsertPaisValidator(ICopperConsumptionDbContext context)
         {
             _context = context;
 
