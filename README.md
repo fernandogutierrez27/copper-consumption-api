@@ -16,6 +16,15 @@ Entre los elementos a implementar en esta PoC tenemos:
 Es posible generar manualmente la base de datos a utilizar, ejecutando el script adjunto en la data/database.sql
 
 ## Ejecución desde docker
+- En caso de querer compilar el Dockerfile, se debe ejecutar el siguiente comando desde la carpeta `src`:
+```bash
+docker build -f Api\Dockerfile --force-rm -t <nombre_repositorio>/<nombre_imagen> .
+```
+
+Para correr el contenedor se deje ejecutar el siguiente comando:
+```
+
+```
 TODO: Definir comando de ejecución desde docker
 
 ## Despliegue automatizado

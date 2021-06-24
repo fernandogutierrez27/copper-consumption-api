@@ -52,7 +52,7 @@ namespace CopperConsumption.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Version = "v1.0.0",
+                    Version = "v1.0.1",
                     Title = "CopperConsumption API",
                     Description = "API de Consumo de Cobre a nivel mundial. Se construye como prueba de concepto de elaboración de Microservicio.",
                     Contact = new OpenApiContact
@@ -87,17 +87,17 @@ namespace CopperConsumption.Api
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                // app.UseHsts(); Se utiliza Hsts desde Azure AppService
             }
 
             app.UseHealthChecks("/health");
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CopperConsumption API v1.0.0");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CopperConsumption API");
             });
 
             app.UseRouting();
