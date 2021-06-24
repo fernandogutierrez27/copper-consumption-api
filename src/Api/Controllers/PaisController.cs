@@ -22,12 +22,40 @@ namespace CopperConsumption.Api.Controllers
             _consumoService = consumoService;
         }
 
+        /// <summary>
+        /// Obtiene un listado de todos los países
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/Pais
+        ///
+        /// </remarks>
+        /// <returns>El listado de paises registrados en el sistema</returns>
+        /// <response code="200">Success: Retorna un arreglo con el listado de todos los paises registrados.</response>
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
         public async Task<ActionResult<List<PaisDto>>> Get()
         {
             return await _paisService.GetPaisesAsync();
         }
 
+        /// <summary>
+        /// Obtiene un país específico según su identificador
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/Pais/{id}
+        ///
+        /// </remarks>
+        /// <param name="id">Identificador del país consultado.</param>
+        /// <response code="200">Success: Retorna un objeto con el país consultado.</response>
+        /// <response code="404">Error: El identificador no corresponde a un país registrado.</response> 
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
         public async Task<ActionResult<PaisDto>> GetById(int id)
         {
@@ -123,12 +151,43 @@ namespace CopperConsumption.Api.Controllers
 
         #region Consumos
 
+        /// <summary>
+        /// Obtiene todos los consumos asociados a un país
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/Pais/{id}/Consumos
+        ///
+        /// </remarks>
+        /// <param name="id">Identificador del país consultado.</param>
+        /// <response code="200">Success: Retorna un arreglo con el listado de consumos asociados a un país.</response>
+        /// <response code="404">Error: El identificador no corresponde a un país registrado.</response> 
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}/Consumos")]
         public async Task<ActionResult<List<ConsumoDto>>> GetConsumosByPais(int id)
         {
             return await _consumoService.GetByPais(id);
         }
 
+        /// <summary>
+        /// Obtiene el consumo asociado a un país para un año en particular
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/Pais/{id}/Consumos/{year}
+        ///
+        /// </remarks>
+        /// <param name="id">Identificador del país consultado.</param>
+        /// <param name="year">Año del consumo.</param>
+        /// <response code="200">Success: Retorna un objeto con el consumo asociado a un país y año.</response>
+        /// <response code="404">Error: El identificador no corresponde a un país registrado o no se encuentran registros para dicho periodo.</response> 
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}/Consumos/{year}")]
         public async Task<ActionResult<ConsumoDto>> GetConsumoByPaisAndYear(int id, int year)
         {
