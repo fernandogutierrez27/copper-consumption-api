@@ -11,6 +11,6 @@ namespace CopperConsumption.Domain.Entities
         public int Id { get; set; }
         public string Nombre { get; set; }
 
-        public IList<Consumo> Consumos { get; private set; } = new List<Consumo>();
+        public IList<Consumo> Consumos { get; set; } = new List<Consumo>();
     }
 }

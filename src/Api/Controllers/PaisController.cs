@@ -213,8 +213,10 @@ namespace CopperConsumption.Api.Controllers
         /// <param name="consumo">Objeto que representa el consumo a crear.</param>
         /// <response code="201">Success: Se retorna el identificador del país y del año asociados al consumo creado.</response>
         /// <response code="400">Error: Ya existe un consumo para este país y periodo, ó el valor de cantidad es inválido.</response> 
+        /// <response code="404">Error: No existe un país asociado al identificador ingresado.</response> 
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Consumes("application/json")]
         [HttpPost("{id}/Consumos/{year}")]
         public async Task<ActionResult> CreateConsumo(int id, int year, ConsumoCommand consumo)

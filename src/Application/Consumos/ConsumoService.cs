@@ -75,6 +75,9 @@ namespace CopperConsumption.Application.Consumos
 
         public async Task<Consumo> CreateConsumo(ConsumoCommand consumo)
         {
+            Pais pais = await _db.Paises.FindAsync(consumo.PaisId);
+            if (pais == null) throw new NotFoundException("Pais", consumo.PaisId);
+
             //Consumo _consumo = _mapper.Map<Consumo>(consumo);
             Consumo _consumo = new Consumo
             {
