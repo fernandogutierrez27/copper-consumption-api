@@ -22,6 +22,8 @@ stages:
     variables:
       buildConfiguration: 'Release'
       dotnetSdkVersion: '5.0.301'
+      wwwrootDir: 'src/Api/wwwroot'
+
 
     steps:
     - task: UseDotNet@2
