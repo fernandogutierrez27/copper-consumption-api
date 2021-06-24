@@ -1,7 +1,8 @@
 # CopperConsumption API
 
 El presente proyecto tiene por objetivo crear un microservicio que exponga un CRUD a modo de ejemplo.
-Dicho microservicio expone datos desde una base de datos alimentada con datos obtenidos desde registros públicos, los datos en particular corresponden al reporte de [Consumo mundial de cobre](https://datos.gob.cl/dataset/consumo-mundial-de-cobre) expuesto por el Ministería de Minería de Chile en el año 2020.
+
+Dicho microservicio expone datos desde una BD alimentada con datos obtenidos desde registros públicos, el registro en particular corresponden al reporte de [Consumo mundial de cobre](https://datos.gob.cl/dataset/consumo-mundial-de-cobre) expuesto por el Ministería de Minería de Chile en el año 2020.
 
 
 Entre los elementos a implementar en esta PoC tenemos:
