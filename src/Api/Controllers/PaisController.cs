@@ -1,4 +1,5 @@
 ﻿using CopperConsumption.Application.Paises;
+using CopperConsumption.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -26,24 +27,26 @@ namespace CopperConsumption.Api.Controllers
             return await _paisService.GetPaisById(id);
         }
 
-        // [HttpPost]
-        // public async Task<ActionResult<int>> Create(CreateTodoListCommand command)
-        // {
-        //     return await Mediator.Send(command);
-        // }
+        [HttpPost]
+        public async Task<ActionResult> Create(Pais pais)
+        {
+            int _id = await _paisService.CreatePais(pais);
 
-        // [HttpPut("{id}")]
-        // public async Task<ActionResult> Update(int id, UpdateTodoListCommand command)
-        // {
-        //     if (id != command.Id)
-        //     {
-        //         return BadRequest();
-        //     }
+            return CreatedAtAction("Get", new {id = _id});
+        }
 
-        //     await Mediator.Send(command);
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Update(int id, Pais pais)
+        {
+            if (id != pais.Id)
+            {
+                return BadRequest();
+            }
 
-        //     return NoContent();
-        // }
+            await _paisService.UpdatePais(pais);
+
+            return NoContent();
+        }
 
         // [HttpDelete("{id}")]
         // public async Task<ActionResult> Delete(int id)

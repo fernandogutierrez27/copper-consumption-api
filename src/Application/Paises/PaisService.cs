@@ -4,7 +4,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using CopperConsumption.Application.Common.Exceptions;
+using CopperConsumption.Application.Common.Helpers;
 using CopperConsumption.Application.Common.Interfaces;
+using CopperConsumption.Domain.Entities;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 namespace CopperConsumption.Application.Paises
@@ -21,7 +24,8 @@ namespace CopperConsumption.Application.Paises
             _db = db;
             _mapper = mapper;
         }
-        public async Task<List<PaisDto>> GetPaisesAsync() {
+        public async Task<List<PaisDto>> GetPaisesAsync()
+        {
             return await _db.Paises
                             .AsNoTracking()
                             .ProjectTo<PaisDto>(_mapper.ConfigurationProvider)
@@ -34,9 +38,26 @@ namespace CopperConsumption.Application.Paises
                                 .ProjectTo<PaisDto>(_mapper.ConfigurationProvider)
                                 .SingleOrDefaultAsync(p => p.Id == id);
 
-            if (pais == null) throw new NotFoundException("Pais",id);
+            if (pais == null) throw new NotFoundException("Pais", id);
 
             return pais;
+        }
+
+        public async Task<int> CreatePais(Pais pais)
+        {
+            pais.Id = 0;
+            await ValidationHelper.Validate<Pais>(new PaisValidator(_db), pais);
+
+            _db.Paises.Add(pais);
+
+            int result = await _db.SaveChangesAsync();
+
+            return pais.Id;
+        }
+
+        public async Task UpdatePais(Pais pais)
+        {
+            await ValidationHelper.Validate<Pais>(new PaisValidator(_db), pais);
         }
     }
 }
