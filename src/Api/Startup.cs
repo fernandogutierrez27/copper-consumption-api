@@ -64,7 +64,7 @@ namespace CopperConsumption.Api
                     License = new OpenApiLicense
                     {
                         Name = "Use under MIT",
-                        Url = new Uri("https://choosealicense.com/licenses/mit/"),
+                        Url = new Uri("https://raw.githubusercontent.com/fernandogutierrez27/copper-consumption-api/main/LICENSE"),
                     }
                 });
 
