@@ -7,7 +7,7 @@ trigger:
 - main
 variables:
   buildConfiguration: 'Release'
-  webRepository: 'copper-consumption-api'
+  containerImage: 'copper-consumption-api'
   tag: $(Build.BuildId)
   webAppName: 'copper-consumption-api'
   registryName: 'fgutierrezdocker'
@@ -24,8 +24,8 @@ stages:
     - task: Docker@2
       displayName: Build and push the image to container registry
       inputs:
-        containerRegistry: 'DockerServiceConnection'
-        repository: '$(webRepository)'
+        containerRegistry: 'DockerHubServiceConnection'
+        repository: '$(containerImage)'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         buildContext: '$(Build.Repository.LocalPath)/src'
