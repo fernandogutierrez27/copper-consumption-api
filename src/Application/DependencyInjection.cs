@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CopperConsumption.Application.Consumos;
 using CopperConsumption.Application.Paises;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -11,6 +12,7 @@ namespace CopperConsumption.Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<PaisService>();
+            services.AddScoped<ConsumoService>();
 
             return services;
         }

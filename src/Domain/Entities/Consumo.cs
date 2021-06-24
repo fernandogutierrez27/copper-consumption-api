@@ -10,7 +10,7 @@ namespace CopperConsumption.Domain.Entities
     {
         public int Año { get; set; }
         public int PaisId { get; set; }
-        public float Cantidad { get; set; }
+        public decimal Cantidad { get; set; }
 
         public Pais Pais { get; set; }
     }
