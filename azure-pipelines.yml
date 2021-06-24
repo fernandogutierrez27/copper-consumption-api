@@ -24,13 +24,12 @@ stages:
     - task: Docker@2
       displayName: Build and push the image to container registry
       inputs:
-        command: buildAndPush
-        buildContext: $(Build.Repository.LocalPath)
-        repository: $(webRepository)
-        dockerfile: $(Build.SourcesDirectory)/src/Api/Dockerfile
         containerRegistry: 'DockerServiceConnection'
-        tags: |
-          $(tag)
+        repository: '$(webRepository)'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        buildContext: '$(Build.Repository.LocalPath)/src'
+        tags: '$(tag)'
 
 - stage: 'Deploy'
   displayName: Deploy the container
