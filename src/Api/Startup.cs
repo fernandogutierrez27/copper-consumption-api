@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using System;
+using System.Reflection;
+using System.IO;
 
 namespace CopperConsumption.Api
 {
@@ -44,7 +48,31 @@ namespace CopperConsumption.Api
                 options.SuppressModelStateInvalidFilter = true;
             });
 
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1.0.0",
+                    Title = "CopperConsumption API",
+                    Description = "API de Consumo de Cobre a nivel mundial. Se construye como prueba de concepto de elaboración de Microservicio.",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Fernando Gutiérrez",
+                        Email = "fernando.gutierrez@live.cl",
+                        Url = new Uri("https://www.linkedin.com/in/fernando-gutierrez-aguilera/"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under MIT",
+                        Url = new Uri("https://choosealicense.com/licenses/mit/"),
+                    }
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,7 +97,7 @@ namespace CopperConsumption.Api
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CopperConsumption API v1.0.0");
             });
 
             app.UseRouting();
