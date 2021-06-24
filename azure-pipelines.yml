@@ -12,36 +12,78 @@ variables:
   webAppName: 'copper-consumption-api'
 
 stages:
-- stage: 'Build'
-  displayName: 'Build and push'
+- stage: 'Build and Test'
+  displayName: 'Build and Test'
   jobs:
   - job: 'Build'
-    displayName: 'Build job'
+    displayName: Build Job
     pool:
       vmImage: 'ubuntu-18.04'
-    steps:
-    - task: Docker@2
-      displayName: Build and push the image to container registry
-      inputs:
-        containerRegistry: 'DockerHubServiceConnection'
-        repository: '$(containerImage)'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        buildContext: '$(Build.Repository.LocalPath)/src'
-        tags: '$(tag)'
+    variables:
+      buildConfiguration: 'Release'
+      dotnetSdkVersion: '5.0.301'
 
-- stage: 'Deploy'
-  displayName: Deploy the container
-  dependsOn: Build
-  jobs:
-  - job: Deploy
-    displayName: Deploy Job
-    pool:
-      vmImage: 'ubuntu-18.04'
     steps:
-    - task: AzureWebAppContainer@1
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
       inputs:
-        azureSubscription: 'AppServiceConnection'
-        appName: '$(webAppName)'
-        containers: '$(containerImage):$(tag)'
+        version: '$(dotnetSdkVersion)'
+
+    - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
+      displayName: 'Write build info'
+      workingDirectory: $(wwwrootDir)
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore project dependencies'
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build the project - $(buildConfiguration)'
+      inputs:
+        command: 'build'
+        arguments: '--no-restore --configuration $(buildConfiguration)'
+        projects: '**/*.csproj'
+    
+    - task: DotNetCoreCLI@2
+      displayName: 'Run unit tests - $(buildConfiguration)'
+      inputs:
+        command: 'test'
+        arguments: '--no-build --configuration $(buildConfiguration)'
+        publishTestResults: true
+        projects: 'tests/**/*.csproj'
+
+# - stage: 'Docker Build'
+#   displayName: 'Docker build and push'
+#   jobs:
+#   - job: 'Build'
+#     displayName: 'Build job'
+#     pool:
+#       vmImage: 'ubuntu-18.04'
+#     steps:
+#     - task: Docker@2
+#       displayName: Build and push the image to container registry
+#       inputs:
+#         containerRegistry: 'DockerHubServiceConnection'
+#         repository: '$(containerImage)'
+#         command: 'buildAndPush'
+#         Dockerfile: '**/Dockerfile'
+#         buildContext: '$(Build.Repository.LocalPath)/src'
+#         tags: '$(tag)'
+
+# - stage: 'Deploy'
+#   displayName: Deploy the container
+#   dependsOn: Build
+#   jobs:
+#   - job: Deploy
+#     displayName: Deploy Job
+#     pool:
+#       vmImage: 'ubuntu-18.04'
+#     steps:
+#     - task: AzureWebAppContainer@1
+#       inputs:
+#         azureSubscription: 'AppServiceConnection'
+#         appName: '$(webAppName)'
+#         containers: '$(containerImage):$(tag)'
 
