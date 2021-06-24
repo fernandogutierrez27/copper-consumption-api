@@ -52,7 +52,7 @@ namespace CopperConsumption.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Version = "v1.0.1",
+                    Version = "v1.1.0",
                     Title = "CopperConsumption API",
                     Description = "API de Consumo de Cobre a nivel mundial. Se construye como prueba de concepto de elaboración de Microservicio.",
                     Contact = new OpenApiContact
