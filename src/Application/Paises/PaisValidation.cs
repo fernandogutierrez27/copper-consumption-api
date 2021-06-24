@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using CopperConsumption.Application.Common.Interfaces;
@@ -19,13 +20,16 @@ namespace CopperConsumption.Application.Paises
 
             RuleFor(p => p.Nombre)
                 .NotEmpty().WithMessage("Nombre is required.")
-                .MustAsync(BeUnique).WithMessage(p => $"Pais ({p.Nombre}) already exists.");
+                .MustAsync(async (pais,nombre, cancellationToken) => await BeUnique(pais.Id, nombre, cancellationToken)).WithMessage(p => $"Pais ({p.Nombre}) already exists.");
         }
 
-        public async Task<bool> BeUnique(string nombre, CancellationToken cancellationToken)
+        public async Task<bool> BeUnique(int id, string nombre, CancellationToken cancellationToken)
         {
+            // Si id es 0 trae todos los paises y luego evalúa que todos sean diferentes del nombre
+            // Si id es un número, trae todos los paises que no sean ese número y evalúa que todos sean diferentes del nombre
             return await _context.Paises
-                                 .AllAsync(p => p.Nombre != nombre);
+                                 .Where(p => id == 0 || p.Id != id)
+                                 .AllAsync(p => (p.Nombre != nombre));
         }
     }
 }

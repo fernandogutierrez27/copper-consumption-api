@@ -50,14 +50,22 @@ namespace CopperConsumption.Application.Paises
 
             _db.Paises.Add(pais);
 
-            int result = await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
 
             return pais.Id;
         }
 
         public async Task UpdatePais(Pais pais)
         {
+            var _pais = await _db.Paises.FindAsync(pais.Id);
+            if (_pais == null) throw new NotFoundException("Pais", pais.Id);
+
             await ValidationHelper.Validate<Pais>(new PaisValidator(_db), pais);
+
+            _pais.Nombre = pais.Nombre;
+            _db.Paises.Update(_pais);
+
+            await _db.SaveChangesAsync();
         }
     }
 }
