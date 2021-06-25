@@ -98,6 +98,7 @@ namespace CopperConsumption.Api
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "CopperConsumption API");
+                c.RoutePrefix = "";
             });
 
             app.UseRouting();

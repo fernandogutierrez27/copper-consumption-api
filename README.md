@@ -3,10 +3,10 @@
 
 El presente proyecto tiene por objetivo crear un microservicio que exponga un CRUD a modo de ejemplo.
 
-Dicho microservicio expone datos desde una BD alimentada con datos obtenidos desde registros públicos, el registro en particular corresponden al reporte de [Consumo mundial de cobre](https://datos.gob.cl/dataset/consumo-mundial-de-cobre) expuesto por el Ministería de Minería de Chile en el año 2020.
+Dicho microservicio expone datos desde una BD alimentada con datos obtenidos desde registros públicos, el registro en particular corresponden al reporte de [Consumo mundial de cobre](https://datos.gob.cl/dataset/consumo-mundial-de-cobre) expuesto por el Ministerío de Minería de Chile en el año 2020, no obstante contiene información de entre 2007 y 2016.
 
 # Demo
-Para ver la ejecución en vivo de la API, junto a su especificación, es posible acceder a la versión [Demo](https://copper-consumption-api.azurewebsites.net/swagger) hospedada en **Azure**.
+Para ver la ejecución en vivo de la API, junto a su especificación, es posible acceder a la versión [Demo](https://copper-consumption-api.azurewebsites.net) hospedada en **Azure**.
 
 # Arquitectura de la solución
 Entre los elementos a implementar en esta PoC tenemos:
@@ -33,7 +33,7 @@ La propia solución es contenerizada a través de **Docker**. Procurando su desp
 
 Además, la imagen compilada se encuentra hospedada en nuestro repositorio de [**Docker Hub**](https://hub.docker.com/repository/docker/fgutierrezdocker/copper-consumption-api).
 
-## Integración y Entrega Continua.
+## Integración y Entrega Continua
 La solución ejecuta tareas automatizadas a través de un proceso de **CI/CD**. El flujo comienza cuando se realiza un *push* al código hospedado en **GitHub**, dicha acción desencadena la ejecución de un pipeline proporcionado por **Azure Pipelines**. Dentro de esta instancia se identifican 3 etapas principales:
 1. Testing: Se restauran las dependencias, el código es compilado y se ejecutan las **pruebas unitarias**.
 2. Build: Una vez aprobada la etapa anterior (validando la ejecución de las pruebas), se procede a compilar la imagen de docker y se realiza la publicación en Docker Hub.
@@ -56,6 +56,6 @@ docker push fgutierrezdocker/copper-consumption-api
 
 Para generar el contenedor a partir de la imagen se deje ejecutar el siguiente comando:
 ```
-
+docker run -it -e "SQL_SERVER=<direccion_sql_server>" -e "DB_NAME=<nombre_db>" -e "SQL_USER=<usuario_sql>" -e 'SQL_PASSWORD=<password_sql>' -p <puerto_contenedor>:80 fgutierrezdocker/copper-consumption-api
 ```
 
