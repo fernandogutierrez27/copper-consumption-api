@@ -12,8 +12,52 @@ variables:
   webAppName: 'copper-consumption-api'
 
 stages:
+- stage: 'Test'
+  displayName: 'Build and Test'
+  jobs:
+  - job: 'Build'
+    displayName: Build Job
+    pool:
+      vmImage: 'ubuntu-18.04'
+    variables:
+      buildConfiguration: 'Release'
+      dotnetSdkVersion: '5.0.301'
+      wwwrootDir: 'src/Api/wwwroot'
+
+    steps:
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
+      inputs:
+        version: '$(dotnetSdkVersion)'
+
+    - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
+      displayName: 'Write build info'
+      workingDirectory: $(wwwrootDir)
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore project dependencies'
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build the project - $(buildConfiguration)'
+      inputs:
+        command: 'build'
+        arguments: '--no-restore --configuration $(buildConfiguration)'
+        projects: '**/*.csproj'
+    
+    - task: DotNetCoreCLI@2
+      displayName: 'Run unit tests - $(buildConfiguration)'
+      inputs:
+        command: 'test'
+        arguments: '--no-build --configuration $(buildConfiguration)'
+        publishTestResults: true
+        projects: 'tests/**/*.csproj'
+
 - stage: 'Build'
-  displayName: 'Build and push'
+  dependsOn: Test
+  displayName: 'Docker build and push'
   jobs:
   - job: 'Build'
     displayName: 'Build job'
