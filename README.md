@@ -1,4 +1,5 @@
 # CopperConsumption API
+[![Build Status](https://dev.azure.com/gosoluciones/copper-consumption-api/_apis/build/status/fernandogutierrez27.copper-consumption-api?branchName=main)](https://dev.azure.com/gosoluciones/copper-consumption-api/_build/latest?definitionId=38&branchName=main)
 
 El presente proyecto tiene por objetivo crear un microservicio que exponga un CRUD a modo de ejemplo.
 
