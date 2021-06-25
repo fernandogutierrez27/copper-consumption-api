@@ -24,9 +24,9 @@ Se desarrolla proyecto de **API en .NET 5**, considerando una arquitectura de *n
 Dicha distribución facilita la ejecución de test unitarios, por ejemplo. En este proyecto se realizan particularmente test unitarios sobre la capa.
  **Application**.
 
-Otro aspecto importante de la API se refiere al manejo de errores, implementando filtros para el manejos de excepciones que posibiliten siempre entregar un mensaje significativo a los consumidores.
+Otro aspecto importante de la API se refiere al manejo de excepciones, implementando filtros que posibilitan siempre entregar un mensaje significativo a los consumidores.
 
-Finalmente, la API propiamente tal se documenta a través de la utilización de Swagger, generando la especificación de OpenApi 3.0 correspondiente.
+Finalmente, la API propiamente tal se documenta a través de la utilización de **Swagger**, generando la especificación de **OpenApi 3.0** correspondiente.
 
 ## Contenerización en Docker
 La propia solución es contenerizada a través de **Docker**. Procurando su despliegue a través de diferentes tecnologías de orquestación en caso de ser necesario. 
@@ -41,13 +41,14 @@ La solución ejecuta tareas automatizadas a través de un proceso de **CI/CD**. 
 
 # Instalación
 ## Generación de Database
-Es posible generar manualmente la base de datos, ya sea para su utilización local o en la nube, ejecutando el script adjunto en `data/database.sql`
+Es posible generar manualmente la base de datos, ya sea para su utilización local o en la nube, ejecutando el script adjunto en [`data/database.sql`](https://github.com/fernandogutierrez27/copper-consumption-api/blob/164b248d01fd8d011874f3503518471b689a3774/data/database.sql)
 
 ## Ejecución desde docker
-- En caso de querer compilar el Dockerfile, se debe ejecutar el siguiente comando desde la carpeta `src`:
+En caso de querer compilar el Dockerfile, se debe ejecutar el siguiente comando desde la carpeta **`src`**:
 ```bash
 docker build -f Api\Dockerfile --force-rm -t <nombre_repositorio>/<nombre_imagen> .
 ```
+
 Otra alternativa, es simplemente descargar la imagen desde el repositorio de Docker Hub.
 ```
 docker push fgutierrezdocker/copper-consumption-api
